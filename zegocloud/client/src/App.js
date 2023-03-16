@@ -11,27 +11,43 @@ function App() {
   const watchStreamVideoRef = useRef();
   const streamIDRef = useRef();
   const startStream = async () => {
-    const localStartStream = await zgRef.current.createStream();
-    startStreamVideoRef.current.srcObject = localStartStream;
-    await zgRef.current.startPublishingStream(
-      streamIDRef.current,
-      localStartStream
-    );
+    try {
+      const response = await fetch(
+        `http://localhost:5000/token/${config.userId}`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json();
+      const token = data.token;
+      await zgRef.current.loginRoom(
+        config.userId,
+        token,
+        { userID: config.userId, userName: config.userName },
+        { userUpdate: true }
+      );
+      const localStartStream = await zgRef.current.createStream();
+      startStreamVideoRef.current.srcObject = localStartStream;
+      await zgRef.current.startPublishingStream(
+        streamIDRef.current,
+        localStartStream
+      );
+    } catch (e) {
+      console.log({ e });
+    }
   };
   const watchStream = async () => {
-    const localWatchStream = await zgRef.current.startPlayingStream(
-      streamIDRef.current
-    );
-    watchStreamVideoRef.current.srcObject = localWatchStream;
+    try {
+      const localWatchStream = await zgRef.current.startPlayingStream(
+        streamIDRef.current
+      );
+      watchStreamVideoRef.current.srcObject = localWatchStream;
+    } catch (e) {
+      console.log({ e });
+    }
   };
   useEffect(() => {
     const zg = new ZegoExpressEngine(appID, server);
-    zg.loginRoom(
-      uuid(),
-      config.token,
-      { userID: config.userId, userName: config.userName },
-      { userUpdate: true }
-    );
     zgRef.current = zg;
     streamIDRef.current = uuid();
   }, [server, appID]);
