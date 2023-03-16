@@ -1,0 +1,3 @@
+# More info
+# For business security, you must generate Tokens on your app server; Otherwise, there is a risk of ServerSecret being stolen.
+# https://docs.zegocloud.com/article/11416
