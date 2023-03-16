@@ -4,6 +4,7 @@ const app = express();
 const port = 5000;
 const bodyParser = require("body-parser");
 const zego = require("./offline_modules/zegoServerAssistant");
+const fs = require("fs");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -37,6 +38,16 @@ app.get("/token/:userId", async (req, res, next) => {
   } catch (e) {
     console.log({ e });
     res.json({ e: e?.errorMessage });
+  }
+});
+
+app.get("/stream/session", async (req, res, next) => {
+  try {
+    const db = JSON.parse(fs.readFileSync("stream.json", "utf-8"));
+    console.log({ db });
+    res.json({ sessionId: db?.sessionId });
+  } catch (e) {
+    res.json({ msg: "no live" });
   }
 });
 
