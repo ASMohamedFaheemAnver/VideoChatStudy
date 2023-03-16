@@ -33,14 +33,10 @@ function App() {
     localParticipant.publishTrack(localTrack);
   };
 
-  console.log({ localVideoTrack });
-
   return (
     <div>
       {localVideoTrack && (
-        <video
-          ref={(ref) => ref && ref.appendChild(localVideoTrack.attach())}
-        />
+        <video ref={(ref) => ref && localVideoTrack.attach(ref)} />
       )}
       <input
         type="text"
