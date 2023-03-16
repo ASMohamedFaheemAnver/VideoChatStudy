@@ -10,24 +10,28 @@ function App() {
   const watchStreamVideoRef = useRef();
 
   const login = async (userOne = true) => {
-    const userId = userOne ? config.userId : config.userId2;
-    const token = userOne ? config?.token : config?.token2;
-    const userName = userOne ? config.userName : config?.userName2;
-    const response = await fetch(
-      `http://${config.localhost}:5000/token/${userId}`,
-      {
-        method: "GET",
-      }
-    );
-    const data = await response.json();
-    const serverToken = data.token;
-    console.log({ serverToken });
-    await zgRef.current.loginRoom(
-      userId,
-      token,
-      { userID: userId, userName: userName },
-      { userUpdate: true }
-    );
+    try {
+      const userId = userOne ? config.userId : config.userId2;
+      const token = userOne ? config?.token : config?.token2;
+      const userName = userOne ? config.userName : config?.userName2;
+      const response = await fetch(
+        `http://${config.localhost}:5000/token/${userId}`,
+        {
+          method: "GET",
+        }
+      );
+      const data = await response.json();
+      const serverToken = data.token;
+      console.log({ serverToken });
+      await zgRef.current.loginRoom(
+        userId,
+        token,
+        { userID: userId, userName: userName },
+        { userUpdate: true }
+      );
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   const getSessionId = async () => {
