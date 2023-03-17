@@ -4,6 +4,9 @@ const config = {
   userId: "Any",
   userName: "Any",
   server: "Look cloud console",
+  token2: "",
+  userName2: "Any",
+  userId2: "Any",
 };
 
 export default config;
