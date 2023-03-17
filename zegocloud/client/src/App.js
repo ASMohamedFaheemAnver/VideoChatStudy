@@ -25,7 +25,7 @@ function App() {
       console.log({ serverToken });
       await zgRef.current.loginRoom(
         userId,
-        token,
+        serverToken,
         { userID: userId, userName: userName },
         { userUpdate: true }
       );
