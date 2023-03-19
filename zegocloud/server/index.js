@@ -32,7 +32,7 @@ app.get("/token/:userId", async (req, res, next) => {
       userId,
       secret,
       effectiveTimeInSeconds,
-      payloadObject
+      JSON.stringify(payloadObject)
     );
     res.json({ token });
   } catch (e) {
